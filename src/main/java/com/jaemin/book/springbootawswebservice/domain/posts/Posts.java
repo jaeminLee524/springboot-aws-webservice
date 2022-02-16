@@ -23,6 +23,11 @@ public class Posts {
 
     private String author;
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     // 생성자에 포함된 필드만 builder에 포함
     @Builder
     public Posts(String title, String content, String author) {
