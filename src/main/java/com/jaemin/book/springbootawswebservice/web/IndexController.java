@@ -1,5 +1,6 @@
 package com.jaemin.book.springbootawswebservice.web;
 
+import com.jaemin.book.springbootawswebservice.config.auth.dto.SessionUser;
 import com.jaemin.book.springbootawswebservice.domain.service.posts.PostsService;
 import com.jaemin.book.springbootawswebservice.web.dto.PostsListResponseDto;
 import com.jaemin.book.springbootawswebservice.web.dto.PostsResponseDto;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ import java.util.List;
 public class IndexController {
 
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     /**
      * 게시글 목록 화면
@@ -24,8 +27,15 @@ public class IndexController {
      */
     @GetMapping("/")
     public String index(Model model) {
-        List<PostsListResponseDto> dtos = postsService.findAllDesc();
-        model.addAttribute("posts", dtos);
+        model.addAttribute("posts", postsService.findAllDesc());
+
+        // CustomOAuth2UserService에서 로그인 성공 시 세션에 저장하기로 함, extract userName from session
+        SessionUser findUser = (SessionUser) httpSession.getAttribute("user");
+
+        if( findUser != null ){
+            model.addAttribute("userName", findUser.getName());
+        }
+
         return "index";
     }
 
