@@ -7,6 +7,7 @@
             <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
             {{#userName}}
                 Logged in as: <span id="user">{{userName}}</span>
+                <!-- logout: security에서 제공하는 default path, SecurityConfig에서 path 변경가능 -->
                 <a href="/logout" class="btn btn-info active" role="button">Logout</a>
             {{/userName}}
             {{^userName}}
