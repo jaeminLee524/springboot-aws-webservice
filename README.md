@@ -12,3 +12,11 @@ testImplementation("org.junit.vintage:junit-vintage-engine") {
 }
 ```
 
+### spring테이블 생성 안됨
+```
+  // initialize-schema: always를 추가
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+```
