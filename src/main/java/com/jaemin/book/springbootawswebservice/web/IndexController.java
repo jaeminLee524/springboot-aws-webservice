@@ -1,5 +1,6 @@
 package com.jaemin.book.springbootawswebservice.web;
 
+import com.jaemin.book.springbootawswebservice.config.auth.LoginUser;
 import com.jaemin.book.springbootawswebservice.config.auth.dto.SessionUser;
 import com.jaemin.book.springbootawswebservice.domain.service.posts.PostsService;
 import com.jaemin.book.springbootawswebservice.web.dto.PostsListResponseDto;
@@ -26,14 +27,15 @@ public class IndexController {
      * return index.mustache
      */
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(@LoginUser SessionUser sessionUser, Model model) {
         model.addAttribute("posts", postsService.findAllDesc());
 
         // CustomOAuth2UserService에서 로그인 성공 시 세션에 저장하기로 함, extract userName from session
-        SessionUser findUser = (SessionUser) httpSession.getAttribute("user");
+        // annotation으로 생성
+        // SessionUser findUser = (SessionUser) httpSession.getAttribute("user");
 
-        if( findUser != null ){
-            model.addAttribute("userName", findUser.getName());
+        if( sessionUser != null ){
+            model.addAttribute("userName", sessionUser.getName());
         }
 
         return "index";
